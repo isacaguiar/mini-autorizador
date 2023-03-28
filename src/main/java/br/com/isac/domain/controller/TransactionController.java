@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/transacoes")
-public interface TransactionController {
+public class TransactionController {
 
-    @PostMapping
-    ResponseEntity<TransactionStatusResponse> executeTransaction(@RequestBody TransactionRequest transactionRequest);
+  @PostMapping
+  ResponseEntity<TransactionStatusResponse> executeTransaction(@RequestBody TransactionRequest transactionRequest) {
+    return null;
+  }
 }

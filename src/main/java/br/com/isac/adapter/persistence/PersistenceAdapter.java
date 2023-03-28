@@ -10,27 +10,27 @@ import java.util.Optional;
 @Service
 public class PersistenceAdapter implements PersistencePort {
 
-    @Autowired
-    CardRepository cardRepository;
+  @Autowired
+  CardRepository cardRepository;
 
-    @Override
-    public CardEntity createCard(CardEntity cardEntity) {
-        return cardRepository.save(cardEntity);
-    }
+  @Override
+  public CardEntity createCard(CardEntity cardEntity) {
+    return cardRepository.save(cardEntity);
+  }
 
-    @Override
-    public BigDecimal getBalance(Integer number) {
-        return null;
-    }
+  @Override
+  public BigDecimal getBalance(Integer number) {
+    return null;
+  }
 
-    @Override
-    public Optional<CardEntity> findByNumber(String number) {
-        Optional<CardEntity> opCard = cardRepository.findByNumber(number);
-        return opCard;
-    }
+  @Override
+  public Optional<CardEntity> findByNumber(String number) {
+    Optional<CardEntity> opCard = cardRepository.findByNumber(number);
+    return opCard;
+  }
 
-    @Override
-    public boolean transactionAuthorization(Integer number, Integer password, BigDecimal value) {
-        return false;
-    }
+  @Override
+  public boolean transactionAuthorization(Integer number, Integer password, BigDecimal value) {
+    return false;
+  }
 }

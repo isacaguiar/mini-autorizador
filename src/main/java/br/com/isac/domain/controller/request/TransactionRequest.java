@@ -11,8 +11,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class TransactionRequest {
 
-    private String cardNumber;
-    private String cardPassword;
-    private BigDecimal value;
+  private String cardNumber;
+  private String cardPassword;
+  private BigDecimal value;
 
 }

@@ -7,11 +7,11 @@ import java.util.Optional;
 
 public interface PersistencePort {
 
-    CardEntity createCard(CardEntity cardEntity);
+  CardEntity createCard(CardEntity cardEntity);
 
-    BigDecimal getBalance(Integer number);
+  BigDecimal getBalance(Integer number);
 
-    Optional<CardEntity> findByNumber(String number);
+  Optional<CardEntity> findByNumber(String number);
 
-    boolean transactionAuthorization(Integer number, Integer password, BigDecimal value);
+  boolean transactionAuthorization(Integer number, Integer password, BigDecimal value);
 }

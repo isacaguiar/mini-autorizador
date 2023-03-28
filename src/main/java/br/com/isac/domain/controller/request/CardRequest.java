@@ -10,12 +10,12 @@ import lombok.*;
 @AllArgsConstructor
 public class CardRequest {
 
-    private String numberCard;
+  private String numberCard;
 
-    private String password;
+  private String password;
 
-    public Card toModel() {
-        return Card.builder().number(numberCard).password(password).build();
-    }
+  public Card toModel() {
+    return Card.builder().number(numberCard).password(password).build();
+  }
 
 }

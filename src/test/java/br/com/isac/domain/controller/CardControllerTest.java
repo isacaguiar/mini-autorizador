@@ -2,9 +2,11 @@ package br.com.isac.domain.controller;
 
 import br.com.isac.domain.controller.response.CardResponse;
 import br.com.isac.domain.exception.CardAlreadyExistsException;
+import br.com.isac.domain.exception.CardNotFoundException;
 import br.com.isac.domain.exception.InvalidCardFormatNumberException;
 import br.com.isac.domain.service.CardService;
 import br.com.isac.util.FileUtil;
+import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -25,51 +28,66 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class CardControllerTest {
 
-    @Autowired
-    private MockMvc mvc;
+  @Autowired
+  private MockMvc mvc;
 
-    @MockBean
-    CardService cardService;
+  @MockBean
+  CardService cardService;
 
-    String path = "/cartoes";
+  final String PATH = "/cartoes";
+  final String PATH_BALANCE = "/cartoes/10";
 
-    @Test
-    public void shouldThrowCreateCardWhenInvalidCardFormatNumberException() throws Exception {
-        when(cardService.createCard(any())).thenThrow(InvalidCardFormatNumberException.class);
+  @Test
+  public void shouldGetBalanceWithSuccess() throws Exception {
+    BigDecimal value = new BigDecimal(500);
+    when(cardService.getBalance(any())).thenReturn(value);
 
-        mvc.perform(
-                        post(path)
-                                .content(FileUtil.loadRequest("create_card"))
-                                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is4xxClientError());
-    }
+    mvc.perform(
+            get(PATH_BALANCE)
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().is2xxSuccessful());
+  }
 
-    @Test
-    public void shouldThrowCreateCardWhenCardAlreadyExistsException() throws Exception {
+  @Test
+  public void shouldThrowGetBalanceWhenCardNotFoundException() throws Exception {
+    when(cardService.getBalance(any())).thenThrow(CardNotFoundException.class);
+    mvc.perform(
+            get(PATH_BALANCE)
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().is4xxClientError());
+  }
 
+  @Test
+  public void shouldThrowCreateCardWhenInvalidCardFormatNumberException() throws Exception {
+    when(cardService.createCard(any())).thenThrow(InvalidCardFormatNumberException.class);
+    mvc.perform(
+            post(PATH)
+                .content(FileUtil.loadRequest("create_card"))
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().is4xxClientError());
+  }
 
+  @Test
+  public void shouldThrowCreateCardWhenCardAlreadyExistsException() throws Exception {
+    when(cardService.createCard(any())).thenThrow(CardAlreadyExistsException.class);
+    mvc.perform(
+            post(PATH)
+                .content(FileUtil.loadRequest("create_card"))
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().is4xxClientError());
+  }
 
-        when(cardService.createCard(any())).thenThrow(CardAlreadyExistsException.class);
+  @Test
+  public void shouldCreateCardWithSuccess() throws Exception {
+    CardResponse cardResponse = CardResponse.builder()
+        .numeroCartao("123").senha("123").build();
+    when(cardService.createCard(any())).thenReturn(cardResponse);
 
-        mvc.perform(
-                        post(path)
-                                .content(FileUtil.loadRequest("create_card"))
-                                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is4xxClientError());
-
-    }
-
-    @Test
-    public void shouldCreateCardWithSuccess() throws Exception {
-        CardResponse cardResponse = CardResponse.builder()
-                .numeroCartao("123").senha("123").build();
-        when(cardService.createCard(any())).thenReturn(cardResponse);
-
-        mvc.perform(
-                        post(path)
-                                .content(FileUtil.loadRequest("create_card"))
-                                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is2xxSuccessful());
-    }
+    mvc.perform(
+            post(PATH)
+                .content(FileUtil.loadRequest("create_card"))
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().is2xxSuccessful());
+  }
 
 }

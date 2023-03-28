@@ -22,17 +22,17 @@ import java.util.Arrays;
 @Import(BeanValidatorPluginsConfiguration.class)
 public class SpringFoxConfig {
 
-    @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("br.com.isac"))
-                .paths(PathSelectors.any())
-                .build()
-                .enableUrlTemplating(true)
-                .useDefaultResponseMessages(false)
-                .groupName("Rest");
-    }
+  @Bean
+  public Docket api() {
+    return new Docket(DocumentationType.SWAGGER_2)
+        .select()
+        .apis(RequestHandlerSelectors.basePackage("br.com.isac"))
+        .paths(PathSelectors.any())
+        .build()
+        .enableUrlTemplating(true)
+        .useDefaultResponseMessages(false)
+        .groupName("Rest");
+  }
 
 
 }

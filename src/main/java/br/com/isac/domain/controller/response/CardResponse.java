@@ -13,6 +13,6 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class CardResponse {
 
-    private String senha;
-    private String numeroCartao;
+  private String senha;
+  private String numeroCartao;
 }

@@ -10,12 +10,12 @@ import java.math.BigDecimal;
 @EqualsAndHashCode
 public class Card {
 
-    private Long id;
+  private Long id;
 
-    private String number;
+  private String number;
 
-    private String password;
+  private String password;
 
-    private BigDecimal balance;
+  private BigDecimal balance;
 
 }
