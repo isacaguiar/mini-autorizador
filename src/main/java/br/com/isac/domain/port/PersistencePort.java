@@ -10,8 +10,6 @@ public interface PersistencePort {
 
   CardEntity createCard(CardEntity cardEntity);
 
-  BigDecimal getBalance(Integer number);
-
   Optional<CardEntity> findByNumber(String number);
 
   void save(CardEntity cardEntity);

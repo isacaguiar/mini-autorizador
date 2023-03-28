@@ -20,11 +20,6 @@ public class PersistenceAdapter implements PersistencePort {
   }
 
   @Override
-  public BigDecimal getBalance(Integer number) {
-    return null;
-  }
-
-  @Override
   public Optional<CardEntity> findByNumber(String number) {
     Optional<CardEntity> opCard = cardRepository.findByNumber(number);
     return opCard;

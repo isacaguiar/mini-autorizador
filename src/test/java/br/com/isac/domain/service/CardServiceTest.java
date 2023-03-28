@@ -50,5 +50,6 @@ class CardServiceTest {
     BigDecimal retorno = cardService.getBalance(cardNumber);
 
     assertEquals(retorno, value);
+    verify(cardService.persistencePort).findByNumber(cardNumber);
   }
 }

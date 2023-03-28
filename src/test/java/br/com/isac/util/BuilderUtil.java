@@ -3,6 +3,7 @@ package br.com.isac.util;
 import br.com.isac.adapter.persistence.*;
 import br.com.isac.domain.model.*;
 import java.math.*;
+import java.util.*;
 
 public class BuilderUtil {
 
@@ -20,5 +21,19 @@ public class BuilderUtil {
         .password(password)
         .balance(balance)
         .build();
+  }
+
+  public static Transaction transaction(String cardNumber, String password, BigDecimal value) {
+    return Transaction.builder()
+        .cardNumber(cardNumber)
+        .password(password)
+        .value(value)
+        .build();
+  }
+
+  public static Optional<CardEntity> optionalCardEntity(String number, String password, BigDecimal balance) {
+     return
+        Optional.ofNullable(CardEntity.builder()
+            .number(number).password(password).balance(balance).build());
   }
 }
