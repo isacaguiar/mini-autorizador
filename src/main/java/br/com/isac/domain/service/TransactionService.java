@@ -5,7 +5,9 @@ import br.com.isac.domain.exception.CardAlreadyExistsException;
 import br.com.isac.domain.exception.CardNotFoundException;
 import br.com.isac.domain.exception.InvalidCardFormatNumberException;
 import br.com.isac.domain.model.Transaction;
+import org.springframework.stereotype.Service;
 
+@Service
 public class TransactionService extends BasicService {
 
   public String executeTransaction(Transaction transaction)

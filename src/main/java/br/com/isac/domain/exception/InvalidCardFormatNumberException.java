@@ -2,7 +2,11 @@ package br.com.isac.domain.exception;
 
 public class InvalidCardFormatNumberException extends RuntimeException {
 
-  private final String cardNumber;
+  private String cardNumber;
+
+  public InvalidCardFormatNumberException() {
+    super();
+  }
 
   public InvalidCardFormatNumberException(String cardNumber) {
     super();

@@ -17,7 +17,6 @@ public abstract class BasicService {
   PersistencePort persistencePort;
 
   protected void executeTransaction(CardEntity card, Transaction transaction) {
-
     card.setBalance(card.getBalance().subtract(transaction.getValue()));
     persistencePort.save(card);
   }
