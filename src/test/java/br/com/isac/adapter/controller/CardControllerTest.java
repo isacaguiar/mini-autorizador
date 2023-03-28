@@ -1,6 +1,7 @@
-package br.com.isac.domain.controller;
+package br.com.isac.adapter.controller;
 
-import br.com.isac.domain.controller.response.CardResponse;
+import br.com.isac.adapter.controller.CardController;
+import br.com.isac.adapter.controller.response.CardResponse;
 import br.com.isac.domain.exception.CardAlreadyExistsException;
 import br.com.isac.domain.exception.CardNotFoundException;
 import br.com.isac.domain.exception.InvalidCardFormatNumberException;
@@ -49,7 +50,7 @@ class CardControllerTest {
   }
 
   @Test
-  public void shouldThrowGetBalanceWhenCardNotFoundException() throws Exception {
+  public void shouldThrowCardNotFoundExceptionWhenGetBalance() throws Exception {
     when(cardService.getBalance(any())).thenThrow(CardNotFoundException.class);
     mvc.perform(
             get(PATH_BALANCE)
@@ -58,7 +59,7 @@ class CardControllerTest {
   }
 
   @Test
-  public void shouldThrowCreateCardWhenInvalidCardFormatNumberException() throws Exception {
+  public void shouldThrowInvalidCardFormatNumberExceptionWhenCreateCard() throws Exception {
     when(cardService.createCard(any())).thenThrow(InvalidCardFormatNumberException.class);
     mvc.perform(
             post(PATH)
@@ -68,7 +69,7 @@ class CardControllerTest {
   }
 
   @Test
-  public void shouldThrowCreateCardWhenCardAlreadyExistsException() throws Exception {
+  public void shouldThrowCardAlreadyExistsExceptionCardWhenCreate() throws Exception {
     when(cardService.createCard(any())).thenThrow(CardAlreadyExistsException.class);
     mvc.perform(
             post(PATH)

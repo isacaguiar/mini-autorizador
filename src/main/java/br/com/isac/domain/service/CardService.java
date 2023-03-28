@@ -1,6 +1,6 @@
 package br.com.isac.domain.service;
 
-import br.com.isac.domain.controller.response.CardResponse;
+import br.com.isac.adapter.controller.response.CardResponse;
 import br.com.isac.adapter.persistence.CardEntity;
 import br.com.isac.domain.exception.CardAlreadyExistsException;
 import br.com.isac.domain.exception.CardNotFoundException;
@@ -11,10 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
 @Service
-public class CardService {
+public class CardService extends BasicService {
 
   @Autowired
   PersistencePort persistencePort;
@@ -36,6 +35,18 @@ public class CardService {
     return cardResponse;
   }
 
+  private void verifyBalanceForTransaction(String number) throws CardAlreadyExistsException {
+    persistencePort.findByNumber(number)
+        .ifPresent(c -> {
+          throw new CardAlreadyExistsException(number);
+        });
+  }
+
+  private void validateTransaction(Card card) throws InvalidCardFormatNumberException {
+    isNumber(card.getNumber());
+    verifyCardAlreadyExists(card.getNumber());
+  }
+
   public BigDecimal getBalance(String number) throws CardNotFoundException {
 
     isNumber(number);
@@ -45,23 +56,7 @@ public class CardService {
     return balance;
   }
 
-  private void validateCardCreation(Card card) throws InvalidCardFormatNumberException {
-    isNumber(card.getNumber());
-    verifyCardAlreadyExists(card.getNumber());
-  }
 
-  private void verifyCardAlreadyExists(String number) throws CardAlreadyExistsException {
-    persistencePort.findByNumber(number)
-        .ifPresent(c -> {
-          throw new CardAlreadyExistsException(number);
-        });
-  }
-
-  private void isNumber(String cardNumber) throws InvalidCardFormatNumberException {
-    if (!cardNumber.matches("^\\d+$")) {
-      throw new InvalidCardFormatNumberException(cardNumber);
-    }
-  }
 
 
 }

@@ -1,7 +1,7 @@
-package br.com.isac.domain.controller;
+package br.com.isac.adapter.controller;
 
-import br.com.isac.domain.controller.request.CardRequest;
-import br.com.isac.domain.controller.response.CardResponse;
+import br.com.isac.adapter.controller.request.CardRequest;
+import br.com.isac.adapter.controller.response.CardResponse;
 import br.com.isac.domain.exception.CardAlreadyExistsException;
 import br.com.isac.domain.exception.CardNotFoundException;
 import br.com.isac.domain.exception.InvalidCardFormatNumberException;
@@ -29,7 +29,7 @@ public class CardController {
   public ResponseEntity<CardResponse> createCard(@Valid @RequestBody CardRequest createCardRequest) {
     CardResponse response;
     HttpStatus httpStatus = UNPROCESSABLE_ENTITY;
-    ;
+
     try {
       response = cardService.createCard(createCardRequest.toModel());
       httpStatus = CREATED;

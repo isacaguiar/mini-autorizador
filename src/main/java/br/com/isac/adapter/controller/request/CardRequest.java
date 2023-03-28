@@ -1,4 +1,4 @@
-package br.com.isac.domain.controller.request;
+package br.com.isac.adapter.controller.request;
 
 import br.com.isac.domain.model.Card;
 import lombok.*;

@@ -1,4 +1,4 @@
-package br.com.isac.domain.controller.response;
+package br.com.isac.adapter.controller.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,4 +15,5 @@ public class CardResponse {
 
   private String senha;
   private String numeroCartao;
+
 }

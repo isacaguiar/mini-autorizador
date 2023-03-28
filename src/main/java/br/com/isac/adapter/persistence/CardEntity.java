@@ -36,5 +36,4 @@ public class CardEntity {
   @Column(name = "balance")
   private BigDecimal balance;
 
-
 }

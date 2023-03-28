@@ -1,5 +1,6 @@
 package br.com.isac.adapter.persistence;
 
+import br.com.isac.domain.model.Transaction;
 import br.com.isac.domain.port.PersistencePort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,8 @@ public class PersistenceAdapter implements PersistencePort {
   }
 
   @Override
-  public boolean transactionAuthorization(Integer number, Integer password, BigDecimal value) {
-    return false;
+  public void save(CardEntity cardEntity) {
+    cardRepository.save(cardEntity);
   }
+
 }
