@@ -1,14 +1,9 @@
 package br.com.isac.adapter.persistence;
 
-
-import br.com.isac.domain.model.Card;
 import com.sun.istack.NotNull;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
-
 
 @Entity
 @Getter

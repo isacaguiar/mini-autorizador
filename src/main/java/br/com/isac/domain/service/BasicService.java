@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class BasicService {
 
   @Autowired
-  PersistencePort persistencePort;
+  public PersistencePort persistencePort;
 
   protected void executeTransaction(CardEntity card, Transaction transaction) {
     card.setBalance(card.getBalance().subtract(transaction.getValue()));

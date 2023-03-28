@@ -15,9 +15,6 @@ import java.math.BigDecimal;
 @Service
 public class CardService extends BasicService {
 
-  @Autowired
-  PersistencePort persistencePort;
-
   public CardResponse createCard(Card card) throws InvalidCardFormatNumberException, CardAlreadyExistsException {
 
     validateCardCreation(card);
@@ -33,18 +30,6 @@ public class CardService extends BasicService {
         .numeroCartao(cardEntity.getNumber()).senha(cardEntity.getPassword()).build();
 
     return cardResponse;
-  }
-
-  private void verifyBalanceForTransaction(String number) throws CardAlreadyExistsException {
-    persistencePort.findByNumber(number)
-        .ifPresent(c -> {
-          throw new CardAlreadyExistsException(number);
-        });
-  }
-
-  private void validateTransaction(Card card) throws InvalidCardFormatNumberException {
-    isNumber(card.getNumber());
-    verifyCardAlreadyExists(card.getNumber());
   }
 
   public BigDecimal getBalance(String number) throws CardNotFoundException {
