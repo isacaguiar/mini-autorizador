@@ -8,3 +8,6 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/authorizer_bd
     username: root
     password:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher

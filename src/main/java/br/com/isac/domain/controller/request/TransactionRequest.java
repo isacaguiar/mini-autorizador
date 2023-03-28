@@ -1,4 +1,4 @@
-package br.com.isac.adapter.controller.request;
+package br.com.isac.domain.controller.request;
 
 import lombok.*;
 

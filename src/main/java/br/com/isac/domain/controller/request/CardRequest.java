@@ -1,10 +1,10 @@
-package br.com.isac.adapter.controller.request;
+package br.com.isac.domain.controller.request;
 
 import br.com.isac.domain.model.Card;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

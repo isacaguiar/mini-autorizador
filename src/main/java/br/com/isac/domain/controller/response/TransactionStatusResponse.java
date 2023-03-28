@@ -1,4 +1,4 @@
-package br.com.isac.adapter.controller.response;
+package br.com.isac.domain.controller.response;
 
 public enum TransactionStatusResponse {
 

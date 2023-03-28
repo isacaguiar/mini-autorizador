@@ -1,8 +1,8 @@
-package br.com.isac.adapter.controller.impl;
+package br.com.isac.domain.controller.impl;
 
-import br.com.isac.adapter.controller.TransactionController;
-import br.com.isac.adapter.controller.request.TransactionRequest;
-import br.com.isac.adapter.controller.response.TransactionStatusResponse;
+import br.com.isac.domain.controller.TransactionController;
+import br.com.isac.domain.controller.request.TransactionRequest;
+import br.com.isac.domain.controller.response.TransactionStatusResponse;
 import org.springframework.http.ResponseEntity;
 
 public class TransactionControllerImpl implements TransactionController {
