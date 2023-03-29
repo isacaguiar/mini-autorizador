@@ -1,37 +1,48 @@
-name: SonarCloud
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Mini-Authorizer CI
+
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
   pull_request:
-    types: [opened, synchronize, reopened]
+    branches: [ "main" ]
+
 jobs:
+
   build:
-    name: Build and analyze
+    name: Build Maven
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        cache: maven
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+
+  dependabot:
+    name: Test - SonarCloud Scan
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
-          java-version: 11
-          distribution: 'zulu' # Alternative distribution options are available.
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      - name: Cache Maven packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-      - name: Build and analyze
+          java-version: '11'
+          distribution: 'temurin'
+          cache: maven
+      - name: SonarCloud Scan
+        run: mvn -B clean verify -Psonar -Dsonar.login=${{ secrets.SONAR_TOKEN }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=isacaguiar_mini-autorizador
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#Sonar mini-authorizer token: b92f3b12a83d73c4dd4e2033553ad5d54471d078
