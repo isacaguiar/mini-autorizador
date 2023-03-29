@@ -23,7 +23,7 @@ class PersistenceAdapterTest {
     String password = "123456";
     BigDecimal balance = new BigDecimal(500);
     CardEntity cardEntity = BuilderUtil.cardEntity(number, password, balance);
-    persistenceAdapter.createCard(cardEntity);
+    persistenceAdapter.save(cardEntity);
     verify(persistenceAdapter.cardRepository).save(cardEntity);
   }
 
@@ -39,7 +39,7 @@ class PersistenceAdapterTest {
     String number = "59874585256954874";
     String password = "123456";
     BigDecimal balance = new BigDecimal(20);
-    CardEntity cardEntity = BuilderUtil.cardEntity(number, password, balance);
+    CardEntity cardEntity = BuilderUtil.cardEntity(1L, number, password, balance);
     persistenceAdapter.save(cardEntity);
     verify(persistenceAdapter.cardRepository).save(cardEntity);
   }

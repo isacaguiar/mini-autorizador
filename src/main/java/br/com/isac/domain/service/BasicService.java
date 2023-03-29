@@ -9,9 +9,13 @@ import br.com.isac.domain.model.Card;
 import br.com.isac.domain.model.Transaction;
 import br.com.isac.domain.port.PersistencePort;
 import java.math.BigDecimal;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class BasicService {
+
+  private static final Logger logger = LogManager.getLogger(BasicService.class);
 
   @Autowired
   public PersistencePort persistencePort;
@@ -19,16 +23,19 @@ public abstract class BasicService {
   protected void executeTransaction(CardEntity card, Transaction transaction) {
     card.setBalance(card.getBalance().subtract(transaction.getValue()));
     persistencePort.save(card);
+    logger.info("Execute Transaction.");
   }
 
   protected void validatePassword(String senhaCartao, String senhaDataBase) throws InvalidPasswordException {
     if (!senhaDataBase.equals(senhaCartao)) {
+      logger.info("Invalid password.");
       throw new InvalidPasswordException();
     }
   }
 
   protected void validBalanceForTransaction(BigDecimal balance, BigDecimal valueTransaction) throws InsufficientFundsException {
     if (balance.compareTo(valueTransaction) < 0 ) {
+      logger.info("Insufficient funds.");
       throw new InsufficientFundsException();
     }
   }
@@ -41,12 +48,14 @@ public abstract class BasicService {
   protected void verifyCardAlreadyExists(String number) throws CardAlreadyExistsException {
     persistencePort.findByNumber(number)
         .ifPresent(c -> {
+          logger.error("Card already exists -> ".concat(number));
           throw new CardAlreadyExistsException(number);
         });
   }
 
   protected void isNumber(String cardNumber) throws InvalidCardFormatNumberException {
     if (!cardNumber.matches("^\\d+$")) {
+      logger.error("Invalid card -> ".concat(cardNumber));
       throw new InvalidCardFormatNumberException(cardNumber);
     }
   }

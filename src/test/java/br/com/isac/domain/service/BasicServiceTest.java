@@ -95,7 +95,7 @@ class BasicServiceTest {
   @Test
   void validBalanceForTransactionWhenSuccess() {
     BigDecimal balance = new BigDecimal(500);
-    BigDecimal valueTransaction = new BigDecimal(10);
+    BigDecimal valueTransaction = new BigDecimal(20);
     basicService.validBalanceForTransaction(balance, valueTransaction);
     verify(basicService, times(1)).validBalanceForTransaction(any(), any());
   }

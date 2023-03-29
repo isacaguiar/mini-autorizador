@@ -17,8 +17,12 @@ public class BuilderUtil {
   }
 
   public static CardEntity cardEntity(String number, String password, BigDecimal balance) {
+    return cardEntity(new Date().getTime(), number, password, balance);
+  }
+
+  public static CardEntity cardEntity(Long id, String number, String password, BigDecimal balance) {
     return CardEntity.builder()
-        .id(new Date().getTime())
+        .id(id)
         .number(number)
         .password(password)
         .balance(balance)

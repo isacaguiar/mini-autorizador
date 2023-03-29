@@ -33,7 +33,7 @@ class CardServiceTest {
     Card card = BuilderUtil.car(number, paswword, balance);
     CardEntity cardEntity = BuilderUtil.cardEntity(number, paswword, balance);
 
-    when(cardService.persistencePort.createCard(any())).thenReturn(cardEntity);
+    when(cardService.persistencePort.save(any())).thenReturn(cardEntity);
     CardResponse cardResponse = cardService.createCard(card);
     assertEquals(cardResponse.getNumeroCartao(), cardEntity.getNumber());
   }

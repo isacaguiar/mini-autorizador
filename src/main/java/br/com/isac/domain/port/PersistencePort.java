@@ -6,9 +6,8 @@ import java.util.Optional;
 
 public interface PersistencePort {
 
-  CardEntity createCard(CardEntity cardEntity);
+  CardEntity save(CardEntity cardEntity);
 
   Optional<CardEntity> findByNumber(String number);
 
-  void save(CardEntity cardEntity);
 }
