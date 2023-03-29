@@ -30,7 +30,7 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-  sonar:
+  dependabot:
     name: Test - SonarCloud Scan
     runs-on: ubuntu-latest
 
@@ -46,3 +46,4 @@ jobs:
         run: mvn -B clean verify -Psonar -Dsonar.login=${{ secrets.SONAR_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#Sonar mini-authorizer token: b92f3b12a83d73c4dd4e2033553ad5d54471d078
