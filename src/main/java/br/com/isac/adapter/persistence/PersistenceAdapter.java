@@ -17,7 +17,7 @@ public class PersistenceAdapter implements PersistencePort {
 
   @Override
   public CardEntity save(CardEntity cardEntity) {
-    logger.info("Create cart.");
+    logger.info("Save cart.");
     return cardRepository.save(cardEntity);
   }
 
