@@ -9,6 +9,7 @@ public class BuilderUtil {
 
   public static Card car(String number, String password, BigDecimal balance) {
     return Card.builder()
+        .id(new Date().getTime())
         .number(number)
         .password(password)
         .balance(balance)
@@ -17,6 +18,7 @@ public class BuilderUtil {
 
   public static CardEntity cardEntity(String number, String password, BigDecimal balance) {
     return CardEntity.builder()
+        .id(new Date().getTime())
         .number(number)
         .password(password)
         .balance(balance)

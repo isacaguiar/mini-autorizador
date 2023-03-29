@@ -37,6 +37,7 @@ class BasicServiceTest {
     String number = "987654";
     String password = "123";
     CardEntity card = CardEntity.builder()
+        .id(1l)
         .number(number)
         .password(password)
         .balance(new BigDecimal(500)).build();

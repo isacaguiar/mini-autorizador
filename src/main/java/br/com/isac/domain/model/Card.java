@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 public class Card {
 
   private Long id;

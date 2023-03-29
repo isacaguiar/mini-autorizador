@@ -8,6 +8,7 @@ class MiniAuthorizerApplicationTests {
 
 	@Test
 	void contextLoads() {
+		MiniAuthorizerApplication.main(new String[] {});MiniAuthorizerApplication.main(new String[] {});
 	}
 
 }
