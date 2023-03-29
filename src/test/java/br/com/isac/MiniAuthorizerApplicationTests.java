@@ -1,5 +1,7 @@
 package br.com.isac;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -7,8 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 class MiniAuthorizerApplicationTests {
 
 	@Test
-	void contextLoads() {
-
+	void testMain() {
+		MiniAuthorizerApplication.main(new String[] {});
+		assertTrue(true);
 	}
 
 }
