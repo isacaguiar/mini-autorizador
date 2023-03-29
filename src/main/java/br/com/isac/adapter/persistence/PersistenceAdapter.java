@@ -18,8 +18,7 @@ public class PersistenceAdapter implements PersistencePort {
 
   @Override
   public Optional<CardEntity> findByNumber(String number) {
-    Optional<CardEntity> opCard = cardRepository.findByNumber(number);
-    return opCard;
+    return cardRepository.findByNumber(number);
   }
 
   @Override
