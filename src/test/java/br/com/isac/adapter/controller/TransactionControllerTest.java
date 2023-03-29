@@ -35,7 +35,7 @@ class TransactionControllerTest {
   final String PATH = "/transacoes";
 
   @Test
-  public void shouldExecuteTransactionWithSuccess() throws Exception {
+  void shouldExecuteTransactionWithSuccess() throws Exception {
     String response = TransactionStatusResponse.OK;
     when(transactionService.executeTransaction(any())).thenReturn(response);
 
@@ -47,7 +47,7 @@ class TransactionControllerTest {
   }
 
   @Test
-  public void shouldThrowCardNotFoundExceptionWhenExecuteTransaction() throws Exception {
+  void shouldThrowCardNotFoundExceptionWhenExecuteTransaction() throws Exception {
     when(transactionService.executeTransaction(any())).thenThrow(CardNotFoundException.class);
     mvc.perform(
             post(PATH)
@@ -57,7 +57,7 @@ class TransactionControllerTest {
   }
 
   @Test
-  public void shouldThrowInsufficientFundsExceptionWhenExecuteTransaction() throws Exception {
+  void shouldThrowInsufficientFundsExceptionWhenExecuteTransaction() throws Exception {
     when(transactionService.executeTransaction(any())).thenThrow(InsufficientFundsException.class);
     mvc.perform(
             post(PATH)
@@ -67,7 +67,7 @@ class TransactionControllerTest {
   }
 
   @Test
-  public void shouldThrowInvalidPasswordExceptionWhenExecuteTransaction() throws Exception {
+  void shouldThrowInvalidPasswordExceptionWhenExecuteTransaction() throws Exception {
     when(transactionService.executeTransaction(any())).thenThrow(InvalidPasswordException.class);
     mvc.perform(
             post(PATH)

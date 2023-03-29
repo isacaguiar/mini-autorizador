@@ -10,7 +10,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 class MiniAuthorizerApplicationTest {
 
   @Test
-  public void testConfigure() {
+  void testConfigure() {
     String[] args = {""};
     Runnable runnable = () -> MiniAuthorizerApplication.main(args);
     assertNotNull(runnable);

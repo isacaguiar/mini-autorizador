@@ -39,7 +39,7 @@ class CardControllerTest {
   final String PATH_BALANCE = "/cartoes/10";
 
   @Test
-  public void shouldGetBalanceWithSuccess() throws Exception {
+  void shouldGetBalanceWithSuccess() throws Exception {
     BigDecimal value = new BigDecimal(500);
     when(cardService.getBalance(any())).thenReturn(value);
 
@@ -50,7 +50,7 @@ class CardControllerTest {
   }
 
   @Test
-  public void shouldThrowCardNotFoundExceptionWhenGetBalance() throws Exception {
+  void shouldThrowCardNotFoundExceptionWhenGetBalance() throws Exception {
     when(cardService.getBalance(any())).thenThrow(CardNotFoundException.class);
     mvc.perform(
             get(PATH_BALANCE)
@@ -59,7 +59,7 @@ class CardControllerTest {
   }
 
   @Test
-  public void shouldThrowInvalidCardFormatNumberExceptionWhenCreateCard() throws Exception {
+  void shouldThrowInvalidCardFormatNumberExceptionWhenCreateCard() throws Exception {
     when(cardService.createCard(any())).thenThrow(InvalidCardFormatNumberException.class);
     mvc.perform(
             post(PATH)
@@ -69,7 +69,7 @@ class CardControllerTest {
   }
 
   @Test
-  public void shouldThrowCardAlreadyExistsExceptionCardWhenCreate() throws Exception {
+  void shouldThrowCardAlreadyExistsExceptionCardWhenCreate() throws Exception {
     when(cardService.createCard(any())).thenThrow(CardAlreadyExistsException.class);
     mvc.perform(
             post(PATH)
@@ -79,7 +79,7 @@ class CardControllerTest {
   }
 
   @Test
-  public void shouldCreateCardWithSuccess() throws Exception {
+  void shouldCreateCardWithSuccess() throws Exception {
     CardResponse cardResponse = CardResponse.builder()
         .numeroCartao("123").senha("123").build();
     when(cardService.createCard(any())).thenReturn(cardResponse);
