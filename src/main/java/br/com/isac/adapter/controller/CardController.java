@@ -73,7 +73,7 @@ public class CardController {
 
   private String formaterBigDecimal(BigDecimal value) {
     DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
-    return new DecimalFormat("###.00", symbols).format(value);
+    return value == null ? null : new DecimalFormat("###.00", symbols).format(value);
   }
 
 }

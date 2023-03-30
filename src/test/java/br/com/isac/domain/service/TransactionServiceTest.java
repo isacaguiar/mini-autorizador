@@ -22,6 +22,7 @@ class TransactionServiceTest {
   public void loadMocks() {
     transactionService = spy(TransactionService.class);
     transactionService.persistencePort = spy(PersistencePort.class);
+    transactionService.redisPort = spy(RedisPort.class);
   }
 
   @Test
