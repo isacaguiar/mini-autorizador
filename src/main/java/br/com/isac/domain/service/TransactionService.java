@@ -1,10 +1,13 @@
 package br.com.isac.domain.service;
 
 import br.com.isac.adapter.controller.response.TransactionStatusResponse;
+import br.com.isac.adapter.persistence.CardEntity;
 import br.com.isac.domain.exception.CardAlreadyExistsException;
 import br.com.isac.domain.exception.CardNotFoundException;
 import br.com.isac.domain.exception.InvalidCardFormatNumberException;
-import br.com.isac.domain.model.Transaction;
+import br.com.isac.domain.exception.LockedTransactionException;
+import br.com.isac.domain.vo.Transaction;
+import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -14,7 +17,7 @@ public class TransactionService extends BasicService {
 
   private static final Logger logger = LogManager.getLogger(TransactionService.class);
   public String executeTransaction(Transaction transaction)
-      throws InvalidCardFormatNumberException, CardAlreadyExistsException, CardNotFoundException {
+      throws InvalidCardFormatNumberException, CardAlreadyExistsException, CardNotFoundException, LockedTransactionException {
 
     isNumber(transaction.getCardNumber());
 
@@ -22,13 +25,16 @@ public class TransactionService extends BasicService {
         .ifPresentOrElse(card -> {
           validatePassword(transaction.getPassword(), card.getPassword());
           validBalanceForTransaction(card.getBalance(), transaction.getValue());
+          validLockedTransaction(transaction.getCardNumber());
+          redisPort.block(transaction.getCardNumber());
           executeTransaction(card, transaction);
+          redisPort.unlock(transaction.getCardNumber());
         }, () -> {
           logger.error("Card not found");
           throw new CardNotFoundException();
         });
 
-    logger.error("Card created");
+    logger.error("Executed transaction");
     return TransactionStatusResponse.OK;
   }
 }

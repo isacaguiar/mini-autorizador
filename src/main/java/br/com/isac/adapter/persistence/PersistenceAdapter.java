@@ -1,6 +1,5 @@
 package br.com.isac.adapter.persistence;
 
-import br.com.isac.adapter.controller.CardController;
 import br.com.isac.domain.port.PersistencePort;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,13 +16,13 @@ public class PersistenceAdapter implements PersistencePort {
 
   @Override
   public CardEntity save(CardEntity cardEntity) {
-    logger.info("Save cart.");
+    logger.info("Save cart");
     return cardRepository.save(cardEntity);
   }
 
   @Override
   public Optional<CardEntity> findByNumber(String number) {
-    logger.info("Find card by number.");
+    logger.info("Find card by number");
     return cardRepository.findByNumber(number);
   }
 

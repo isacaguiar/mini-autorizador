@@ -5,9 +5,13 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL57Dialect
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/authorizer_bd
+    url: ${BD_HOST:jdbc:mysql://127.0.0.1:3306/miniautorizador}
     username: root
     password:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
+redis:
+  host: ${REDIS_HOST:127.0.0.1}
+  port: 6379

@@ -1,6 +1,6 @@
 package br.com.isac.adapter.controller.request;
 
-import br.com.isac.domain.model.Card;
+import br.com.isac.domain.vo.Card;
 import lombok.*;
 
 @Getter

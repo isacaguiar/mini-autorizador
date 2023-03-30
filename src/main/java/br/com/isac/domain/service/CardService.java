@@ -5,7 +5,7 @@ import br.com.isac.adapter.persistence.CardEntity;
 import br.com.isac.domain.exception.CardAlreadyExistsException;
 import br.com.isac.domain.exception.CardNotFoundException;
 import br.com.isac.domain.exception.InvalidCardFormatNumberException;
-import br.com.isac.domain.model.Card;
+import br.com.isac.domain.vo.Card;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class CardService extends BasicService {
         .balance(new BigDecimal(500)).build();
 
     cardEntity = persistencePort.save(cardEntity);
-    logger.info("Create card.");
+    logger.info("Create card");
 
     return CardResponse.builder()
         .numeroCartao(cardEntity.getNumber()).senha(cardEntity.getPassword()).build();
@@ -34,10 +34,10 @@ public class CardService extends BasicService {
 
   public BigDecimal getBalance(String number) throws CardNotFoundException {
     isNumber(number);
-    logger.info("Create card.");
+    logger.info("Get balance");
     return persistencePort.findByNumber(number).map(CardEntity::getBalance)
         .orElseThrow( () -> {
-          logger.info("Card not found.");
+          logger.info("Card not found");
           return new CardNotFoundException();
         }
     );
