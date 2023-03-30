@@ -7,6 +7,11 @@ import br.com.isac.domain.exception.CardNotFoundException;
 import br.com.isac.domain.exception.InvalidCardFormatNumberException;
 import br.com.isac.domain.service.BasicService;
 import br.com.isac.domain.service.CardService;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +56,7 @@ public class CardController {
   }
 
   @GetMapping(value = "/{numeroCartao}")
-  public ResponseEntity<BigDecimal> getBalance(@PathVariable("numeroCartao") String numberCard) {
+  public ResponseEntity<String> getBalance(@PathVariable("numeroCartao") String numberCard) {
     BigDecimal response;
     HttpStatus httpStatus = NOT_FOUND;
     logger.info("Get balance request");
@@ -63,7 +68,12 @@ public class CardController {
       response = null;
       logger.error("Card not found");
     }
-    return new ResponseEntity<>(response, httpStatus);
+    return new ResponseEntity<>(formaterBigDecimal(response), httpStatus);
+  }
+
+  private String formaterBigDecimal(BigDecimal value) {
+    DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+    return new DecimalFormat("###.00", symbols).format(value);
   }
 
 }

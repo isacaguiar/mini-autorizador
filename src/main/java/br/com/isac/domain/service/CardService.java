@@ -34,7 +34,7 @@ public class CardService extends BasicService {
 
   public BigDecimal getBalance(String number) throws CardNotFoundException {
     isNumber(number);
-    logger.info("Create card");
+    logger.info("Get balance");
     return persistencePort.findByNumber(number).map(CardEntity::getBalance)
         .orElseThrow( () -> {
           logger.info("Card not found");
