@@ -15,26 +15,26 @@ public class RedisRepository {
   private RedisTemplate<String, String> template;
 
   public String get(String key) {
-    logger.info("Get key Redis for card " + key);
+    logger.info("Get key Redis for card ".concat(key));
     String definitiveKey = buildKey(key);
     return template.boundValueOps(definitiveKey).get();
   }
 
   public String set(String key) {
-    logger.info("Set key Redis for card " + key);
+    logger.info("Set key Redis for card ".concat(key));
     String definitiveKey = buildKey(key);
     template.boundValueOps(definitiveKey).set(key);
     return key;
   }
 
   public void delete(String key) {
-    logger.info("Remove key Redis for card " + key);
+    logger.info("Remove key Redis for card ".concat(key));
     String definitiveKey = buildKey(key);
     template.boundValueOps(definitiveKey).getAndDelete();
   }
 
   private String buildKey(String key) {
-    return "mini-authorizer:transaction:" + key;
+    return "mini-authorizer:transaction:".concat(key);
   }
 
 }
