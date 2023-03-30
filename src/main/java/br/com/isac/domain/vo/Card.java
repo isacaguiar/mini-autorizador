@@ -1,4 +1,4 @@
-package br.com.isac.domain.model;
+package br.com.isac.domain.vo;
 
 import lombok.*;
 import java.math.BigDecimal;

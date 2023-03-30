@@ -6,7 +6,7 @@ import static org.mockito.Mockito.*;
 import br.com.isac.adapter.controller.response.*;
 import br.com.isac.adapter.persistence.*;
 import br.com.isac.domain.exception.*;
-import br.com.isac.domain.model.*;
+import br.com.isac.domain.vo.*;
 import br.com.isac.domain.port.*;
 import br.com.isac.util.*;
 import java.math.*;
@@ -22,6 +22,7 @@ class TransactionServiceTest {
   public void loadMocks() {
     transactionService = spy(TransactionService.class);
     transactionService.persistencePort = spy(PersistencePort.class);
+    transactionService.redisPort = spy(RedisPort.class);
   }
 
   @Test
