@@ -53,14 +53,14 @@ public abstract class BasicService {
   protected void verifyCardAlreadyExists(String number) throws CardAlreadyExistsException {
     persistencePort.findByNumber(number)
         .ifPresent(c -> {
-          logger.error("Card already exists -> ".concat(number));
+          logger.error("Card already exists -> {}", number);
           throw new CardAlreadyExistsException(number);
         });
   }
 
   protected void isNumber(String cardNumber) throws InvalidCardFormatNumberException {
     if (!cardNumber.matches("^\\d+$")) {
-      logger.error("Invalid card -> ".concat(cardNumber));
+      logger.error("Invalid card -> {}", cardNumber);
       throw new InvalidCardFormatNumberException(cardNumber);
     }
   }

@@ -1,6 +1,5 @@
 package br.com.isac.adapter.persistence;
 
-import br.com.isac.adapter.controller.CardController;
 import br.com.isac.domain.port.PersistencePort;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
