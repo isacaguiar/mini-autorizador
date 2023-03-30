@@ -1,12 +1,10 @@
 package br.com.isac.domain.port;
 
-import br.com.isac.domain.vo.LockedKey;
+public interface RedisPort {
 
-public interface LockPort {
+  String block(String key);
 
-  LockedKey buy(String key);
+  String get(String key);
 
-  public boolean isLocked(String key);
-
-  void release(LockedKey lockedKey);
+  void unlock(String key);
 }

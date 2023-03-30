@@ -42,10 +42,10 @@ public class CardController {
     } catch (CardAlreadyExistsException e) {
       response = CardResponse.builder()
           .numeroCartao(createCardRequest.getNumberCard()).senha(createCardRequest.getPassword()).build();
-      logger.error("Card already exists.");
+      logger.error("Card already exists");
     } catch (InvalidCardFormatNumberException e) {
       response = null;
-      logger.error("Invalid card format number.");
+      logger.error("Invalid card format number");
     }
     return new ResponseEntity<>(response, httpStatus);
   }
@@ -61,7 +61,7 @@ public class CardController {
       logger.info("Get balance request");
     } catch (CardNotFoundException e) {
       response = null;
-      logger.error("Card not found.");
+      logger.error("Card not found");
     }
     return new ResponseEntity<>(response, httpStatus);
   }

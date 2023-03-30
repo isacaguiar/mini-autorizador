@@ -17,13 +17,13 @@ public class PersistenceAdapter implements PersistencePort {
 
   @Override
   public CardEntity save(CardEntity cardEntity) {
-    logger.info("Save cart.");
+    logger.info("Save cart");
     return cardRepository.save(cardEntity);
   }
 
   @Override
   public Optional<CardEntity> findByNumber(String number) {
-    logger.info("Find card by number.");
+    logger.info("Find card by number");
     return cardRepository.findByNumber(number);
   }
 

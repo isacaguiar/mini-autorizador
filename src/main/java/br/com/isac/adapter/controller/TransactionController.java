@@ -8,6 +8,7 @@ import br.com.isac.adapter.controller.response.TransactionStatusResponse;
 import br.com.isac.domain.exception.CardNotFoundException;
 import br.com.isac.domain.exception.InsufficientFundsException;
 import br.com.isac.domain.exception.InvalidPasswordException;
+import br.com.isac.domain.exception.LockedTransactionException;
 import br.com.isac.domain.service.TransactionService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,20 +33,23 @@ public class TransactionController {
   ResponseEntity<String> executeTransaction(@RequestBody TransactionRequest transactionRequest) {
     String response;
     HttpStatus httpStatus = UNPROCESSABLE_ENTITY;
-    logger.info("Transaction request.");
+    logger.info("Transaction request");
     try {
       response = transactionService.executeTransaction(transactionRequest.toModel());
       httpStatus = OK;
-      logger.info("Executed transaction.");
+      logger.info("Executed transaction");
     } catch (InsufficientFundsException e) {
       response = TransactionStatusResponse.INSUFFICIENT_FUNDS;
-      logger.error("Insufficient funds.");
+      logger.error("Insufficient funds");
     } catch (InvalidPasswordException e) {
       response = TransactionStatusResponse.INVALID_PASSWORD;
-      logger.error("Invalid password.");
+      logger.error("Invalid password");
     } catch (CardNotFoundException e) {
       response = TransactionStatusResponse.CARD_NOT_FOUND;
-      logger.error("Card not found.");
+      logger.error("Card not found");
+    } catch (LockedTransactionException e) {
+      response = TransactionStatusResponse.LOCKED_TRANSACTION;
+      logger.error("Locked transaction");
     }
     return new ResponseEntity<>(response, httpStatus);
   }

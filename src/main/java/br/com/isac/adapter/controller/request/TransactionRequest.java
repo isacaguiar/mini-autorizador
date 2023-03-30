@@ -1,7 +1,6 @@
 package br.com.isac.adapter.controller.request;
 
-import br.com.isac.domain.model.Card;
-import br.com.isac.domain.model.Transaction;
+import br.com.isac.domain.vo.Transaction;
 import lombok.*;
 
 import java.math.BigDecimal;

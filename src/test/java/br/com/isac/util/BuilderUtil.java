@@ -1,7 +1,7 @@
 package br.com.isac.util;
 
 import br.com.isac.adapter.persistence.*;
-import br.com.isac.domain.model.*;
+import br.com.isac.domain.vo.*;
 import java.math.*;
 import java.util.*;
 
