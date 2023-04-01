@@ -21,6 +21,14 @@ public class TransactionService extends BasicService {
 
     isNumber(transaction.getCardNumber());
 
+    CardEntity cardEntity = getCard(transaction.getCardNumber());
+    validatePassword(transaction.getCardNumber(), transaction.getPassword());
+    validBalanceForTransaction(cardEntity.getBalance(), transaction.getValue());
+    validLockedTransaction(transaction.getCardNumber());
+    redisPort.block(transaction.getCardNumber());
+    executeTransaction(cardEntity, transaction);
+    redisPort.unlock(transaction.getCardNumber());
+/*
     persistencePort.findByNumber(transaction.getCardNumber())
         .ifPresentOrElse(card -> {
           validatePassword(transaction.getCardNumber(), transaction.getPassword());
@@ -32,7 +40,7 @@ public class TransactionService extends BasicService {
         }, () -> {
           logger.error("Card not found");
           throw new CardNotFoundException();
-        });
+        });*/
 
     logger.error("Executed transaction");
     return TransactionStatusResponse.OK;

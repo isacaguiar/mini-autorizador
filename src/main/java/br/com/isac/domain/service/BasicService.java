@@ -56,14 +56,15 @@ public abstract class BasicService {
     verifyCardAlreadyExists(card.getNumber());
   }
 
-  protected void verifyCardExists(String number) throws CardAlreadyExistsException {
-    persistencePort.findByNumber(number)
-        .ifPresentOrElse(c -> {
+  protected CardEntity getCard(String number) throws CardAlreadyExistsException {
+    Optional<CardEntity> optionalCardEntity = persistencePort.findByNumber(number);
+    optionalCardEntity.ifPresentOrElse(c -> {
           logger.error("Card exists -> {}", number);
         }, () -> {
           logger.error("Card not found -> {}", number);
           throw new CardNotFoundException();
         } );
+    return optionalCardEntity.get();
   }
   protected void verifyCardAlreadyExists(String number) throws CardAlreadyExistsException {
     persistencePort.findByNumber(number)

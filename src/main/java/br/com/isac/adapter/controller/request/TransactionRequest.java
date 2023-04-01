@@ -5,7 +5,9 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class TransactionRequest {
   private String numeroCartao;
   private String senhaCartao;
