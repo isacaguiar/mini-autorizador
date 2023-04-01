@@ -1,5 +1,6 @@
 package br.com.isac.util;
 
+import br.com.isac.adapter.controller.response.CardResponse;
 import br.com.isac.adapter.persistence.*;
 import br.com.isac.domain.vo.*;
 import java.math.*;
@@ -7,7 +8,7 @@ import java.util.*;
 
 public class BuilderUtil {
 
-  public static Card car(String number, String password, BigDecimal balance) {
+  public static Card card(String number, String password, BigDecimal balance) {
     return Card.builder()
         .id(new Date().getTime())
         .number(number)
@@ -42,4 +43,12 @@ public class BuilderUtil {
         Optional.ofNullable(CardEntity.builder()
             .number(number).password(password).balance(balance).build());
   }
+
+  public static CardResponse cardResponse(String number, String password) {
+    return
+        CardResponse.builder()
+            .numeroCartao(number).senha(password).build();
+  }
+
+
 }

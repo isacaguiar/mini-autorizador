@@ -12,24 +12,30 @@ import br.com.isac.domain.exception.CardAlreadyExistsException;
 import br.com.isac.domain.exception.InsufficientFundsException;
 import br.com.isac.domain.exception.InvalidCardFormatNumberException;
 import br.com.isac.domain.exception.InvalidPasswordException;
+import br.com.isac.domain.exception.LockedTransactionException;
+import br.com.isac.domain.port.RedisPort;
 import br.com.isac.domain.vo.Card;
 import br.com.isac.domain.vo.Transaction;
 import br.com.isac.domain.port.PersistencePort;
+import br.com.isac.util.BuilderUtil;
 import java.math.BigDecimal;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class BasicServiceTest {
 
+  @MockBean
   BasicService basicService;
 
   @BeforeAll
   public void loadMocks() {
     basicService = spy(BasicService.class);
     basicService.persistencePort = spy(PersistencePort.class);
+    basicService.redisPort = spy(RedisPort.class);
   }
 
   @Test
@@ -114,19 +120,26 @@ class BasicServiceTest {
 
   @Test
   void validatePasswordWhenSuccess() {
+    Long id = 10L;
+    String cardNumber = "1111111111111111";
     String password = "password";
-    String validPassword = "password";
-    basicService.validatePassword(password, validPassword);
-    verify(basicService, times(1)).validatePassword(password, validPassword);
+    BigDecimal balance = new BigDecimal(500);
+    CardEntity cardEntity = BuilderUtil.cardEntity(id, cardNumber, password, balance);
+    Optional<CardEntity> optionalCardEntity = Optional.of(cardEntity);
+    when(basicService.persistencePort.findByNumberAndPassword(any(), any())).thenReturn(optionalCardEntity);
+    basicService.validatePassword(cardNumber, password);
+    verify(basicService.persistencePort).findByNumberAndPassword(cardNumber, password);
+    verify(basicService).validatePassword(cardNumber, password);
   }
 
   @Test
   void shouldThrowInvalidPasswordExceptionWhenValidatePassword() {
+    String numeroCartao = "222222222222222";
     String password = "password";
     String invalidPassword = "p@ssword";
 
     assertThrows(InvalidPasswordException.class, () -> {
-      basicService.validatePassword(password, invalidPassword);
+      basicService.validatePassword(numeroCartao, password);
     });
 
     verify(basicService, times(1)).validatePassword(any(), any());
@@ -147,5 +160,27 @@ class BasicServiceTest {
     });
 
     verify(basicService, times(1)).isNumber(invalidNumber);
+  }
+
+  @Test
+  void shouldThrowLockedTransactionExceptionnWhenValidLockedTransaction() {
+    String key = "ABC";
+
+    when(basicService.redisPort.get(any())).thenReturn(key);
+
+    assertThrows(LockedTransactionException.class, () -> {
+      basicService.validLockedTransaction(key);
+    });
+
+    verify(basicService, times(1)).isNumber(key);
+  }
+
+  @Test
+  void validLockedTransactionWhenSuccess() {
+    String key = "123";
+
+    basicService.validLockedTransaction(key);
+
+    verify(basicService).validLockedTransaction(key);
   }
 }

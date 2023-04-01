@@ -5,14 +5,16 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
-@Getter
 @NoArgsConstructor
 public class TransactionRequest {
-  private String cardNumber;
-  private String cardPassword;
-  private BigDecimal value;
+  private String numeroCartao;
+  private String senhaCartao;
+  private BigDecimal valor;
   public Transaction toModel() {
-    return Transaction.builder().cardNumber(cardNumber).password(cardPassword).value(value).build();
+    return Transaction.builder()
+        .cardNumber(numeroCartao)
+        .password(senhaCartao)
+        .value(valor).build();
   }
 
 }

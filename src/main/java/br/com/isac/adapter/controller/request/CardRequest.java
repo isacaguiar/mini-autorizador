@@ -8,12 +8,12 @@ import lombok.*;
 @NoArgsConstructor
 public class CardRequest {
 
-  private String numberCard;
+  private String numeroCartao;
 
-  private String password;
+  private String senha;
 
   public Card toModel() {
-    return Card.builder().number(numberCard).password(password).build();
+    return Card.builder().number(numeroCartao).password(senha).build();
   }
 
 }

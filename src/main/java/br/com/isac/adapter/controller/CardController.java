@@ -36,20 +36,20 @@ public class CardController {
   private CardService cardService;
 
   @PostMapping
-  public ResponseEntity<CardResponse> createCard(@Valid @RequestBody CardRequest createCardRequest) {
-    CardResponse response;
+  public ResponseEntity<Object> createCard(@Valid @RequestBody CardRequest createCardRequest) {
+    Object response;
     HttpStatus httpStatus = UNPROCESSABLE_ENTITY;
     logger.info("Card creation request");
     try {
       response = cardService.createCard(createCardRequest.toModel());
       httpStatus = CREATED;
-      logger.info("Card created -> Number: ".concat(createCardRequest.getNumberCard()));
+      logger.info("Card created -> Number: ".concat(createCardRequest.getNumeroCartao()));
     } catch (CardAlreadyExistsException e) {
       response = CardResponse.builder()
-          .numeroCartao(createCardRequest.getNumberCard()).senha(createCardRequest.getPassword()).build();
+          .numeroCartao(createCardRequest.getNumeroCartao()).senha(createCardRequest.getSenha()).build();
       logger.error("Card already exists");
     } catch (InvalidCardFormatNumberException e) {
-      response = null;
+      response = "NÚMERO_DE CARTAO_INVÁLIDO";
       logger.error("Invalid card format number");
     }
     return new ResponseEntity<>(response, httpStatus);

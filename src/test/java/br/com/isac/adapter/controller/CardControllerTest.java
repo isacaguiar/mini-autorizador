@@ -6,6 +6,8 @@ import br.com.isac.domain.exception.CardAlreadyExistsException;
 import br.com.isac.domain.exception.CardNotFoundException;
 import br.com.isac.domain.exception.InvalidCardFormatNumberException;
 import br.com.isac.domain.service.CardService;
+import br.com.isac.domain.vo.Card;
+import br.com.isac.util.BuilderUtil;
 import br.com.isac.util.FileUtil;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
@@ -19,6 +21,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -80,8 +83,11 @@ class CardControllerTest {
 
   @Test
   void shouldCreateCardWithSuccess() throws Exception {
-    CardResponse cardResponse = CardResponse.builder()
-        .numeroCartao("123").senha("123").build();
+    String carNUmber = "1111111111111111";
+    String password = "123456";
+    BigDecimal balance = new BigDecimal(500);
+    CardResponse cardResponse = BuilderUtil.cardResponse(carNUmber, password);
+    Card card = BuilderUtil.card(carNUmber, password, balance);
     when(cardService.createCard(any())).thenReturn(cardResponse);
 
     mvc.perform(

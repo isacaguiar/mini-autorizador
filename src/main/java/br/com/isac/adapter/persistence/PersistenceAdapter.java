@@ -26,4 +26,10 @@ public class PersistenceAdapter implements PersistencePort {
     return cardRepository.findByNumber(number);
   }
 
+  @Override
+  public Optional<CardEntity> findByNumberAndPassword(String cardNumber, String password) {
+    logger.info("Find card by number");
+    return cardRepository.findByNumberAndPassword(cardNumber, password);
+  }
+
 }
