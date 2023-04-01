@@ -23,7 +23,8 @@ public class TransactionService extends BasicService {
 
     persistencePort.findByNumber(transaction.getCardNumber())
         .ifPresentOrElse(card -> {
-          validatePassword(transaction.getPassword(), card.getPassword());
+          verifyCardExists(transaction.getCardNumber());
+          validatePassword(transaction.getCardNumber(), transaction.getPassword(), card.getPassword());
           validBalanceForTransaction(card.getBalance(), transaction.getValue());
           validLockedTransaction(transaction.getCardNumber());
           redisPort.block(transaction.getCardNumber());

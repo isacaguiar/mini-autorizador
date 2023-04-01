@@ -114,22 +114,24 @@ class BasicServiceTest {
 
   @Test
   void validatePasswordWhenSuccess() {
+    String cardNumber = "1111111111111111";
     String password = "password";
     String validPassword = "password";
-    basicService.validatePassword(password, validPassword);
-    verify(basicService, times(1)).validatePassword(password, validPassword);
+    basicService.validatePassword(cardNumber, password, validPassword);
+    verify(basicService, times(1)).validatePassword(cardNumber, password, validPassword);
   }
 
   @Test
   void shouldThrowInvalidPasswordExceptionWhenValidatePassword() {
+    String numeroCartao = "222222222222222";
     String password = "password";
     String invalidPassword = "p@ssword";
 
     assertThrows(InvalidPasswordException.class, () -> {
-      basicService.validatePassword(password, invalidPassword);
+      basicService.validatePassword(numeroCartao, password, invalidPassword);
     });
 
-    verify(basicService, times(1)).validatePassword(any(), any());
+    verify(basicService, times(1)).validatePassword(any(), any(), any());
   }
 
   @Test

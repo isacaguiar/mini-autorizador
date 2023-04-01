@@ -10,4 +10,6 @@ public interface PersistencePort {
 
   Optional<CardEntity> findByNumber(String number);
 
+  Optional<CardEntity> findByNumberAndPassword(String number, String password);
+
 }

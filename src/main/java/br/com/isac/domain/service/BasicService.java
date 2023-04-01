@@ -2,6 +2,7 @@ package br.com.isac.domain.service;
 
 import br.com.isac.adapter.persistence.CardEntity;
 import br.com.isac.domain.exception.CardAlreadyExistsException;
+import br.com.isac.domain.exception.CardNotFoundException;
 import br.com.isac.domain.exception.InsufficientFundsException;
 import br.com.isac.domain.exception.InvalidCardFormatNumberException;
 import br.com.isac.domain.exception.InvalidPasswordException;
@@ -11,6 +12,8 @@ import br.com.isac.domain.vo.Card;
 import br.com.isac.domain.vo.Transaction;
 import br.com.isac.domain.port.PersistencePort;
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +34,14 @@ public abstract class BasicService {
     logger.info("Execute Transaction");
   }
 
-  protected void validatePassword(String senhaCartao, String senhaDataBase) throws InvalidPasswordException {
-    if (!senhaDataBase.equals(senhaCartao)) {
-      logger.info("Invalid password");
-      throw new InvalidPasswordException();
-    }
+  protected void validatePassword(String numeroCartao, String senhaCartao, String senhaDataBase) throws InvalidPasswordException {
+    persistencePort.findByNumberAndPassword(numeroCartao, senhaCartao)
+        .ifPresentOrElse(c -> {
+          logger.info("Valid password -> {}", numeroCartao);
+        }, () -> {
+          logger.error("Invalid password -> {}", numeroCartao);
+          throw new InvalidPasswordException();
+        });
   }
 
   protected void validBalanceForTransaction(BigDecimal balance, BigDecimal valueTransaction) throws InsufficientFundsException {
@@ -50,6 +56,15 @@ public abstract class BasicService {
     verifyCardAlreadyExists(card.getNumber());
   }
 
+  protected void verifyCardExists(String number) throws CardAlreadyExistsException {
+    persistencePort.findByNumber(number)
+        .ifPresentOrElse(c -> {
+          logger.error("Card exists -> {}", number);
+        }, () -> {
+          logger.error("Card not found -> {}", number);
+          throw new CardNotFoundException();
+        } );
+  }
   protected void verifyCardAlreadyExists(String number) throws CardAlreadyExistsException {
     persistencePort.findByNumber(number)
         .ifPresent(c -> {
@@ -59,15 +74,23 @@ public abstract class BasicService {
   }
 
   protected void isNumber(String cardNumber) throws InvalidCardFormatNumberException {
-    if (!cardNumber.matches("^\\d+$")) {
+    try {
+      new BigInteger(cardNumber);
+    } catch (NumberFormatException e) {
       logger.error("Invalid card -> {}", cardNumber);
       throw new InvalidCardFormatNumberException(cardNumber);
     }
   }
 
   protected void validLockedTransaction(String key) throws LockedTransactionException {
-    if (redisPort.get(key) != null) {
-      throw new LockedTransactionException();
+    try {
+      Optional<String> optional = Optional.of(redisPort.get(key));
+      optional.ifPresent(c -> {
+        logger.error("Locked transaction for card -> {}", key);
+        throw new LockedTransactionException();
+      });
+    } catch (NullPointerException e) {
+      logger.info("Authorized transaction for card -> {}", key);
     }
   }
 }
