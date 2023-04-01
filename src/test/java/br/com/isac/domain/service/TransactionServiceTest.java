@@ -27,16 +27,32 @@ class TransactionServiceTest {
 
   @Test
   void executeTransactionWhenSucess() {
+    String cardNumber = "888888888888888";
+    String password = "123456";
+    BigDecimal value = new BigDecimal(120);
+    Transaction transaction = BuilderUtil.transaction(cardNumber, password, value);
+    Optional<CardEntity> optionalCardEntity = BuilderUtil.optionalCardEntity(cardNumber, password, new BigDecimal(500));
+    when(transactionService.persistencePort.findByNumber(cardNumber)).thenReturn(optionalCardEntity);
+    when(transactionService.persistencePort.findByNumberAndPassword(cardNumber, password)).thenReturn(optionalCardEntity);
+    String retorno = transactionService.executeTransaction(transaction);
+
+    assertEquals(TransactionStatusResponse.OK, retorno);
+    verify(transactionService.persistencePort, times(1)).findByNumber(cardNumber);
+    verify(transactionService.persistencePort, times(1)).findByNumberAndPassword(cardNumber, password);
+  }
+
+  @Test
+  void shouldThrowInvalidPasswordExceptionWhenSucessExecuteTransaction() throws CardNotFoundException {
     String cardNumber = "5856985412547854";
     String password = "123456";
     BigDecimal value = new BigDecimal(120);
     Transaction transaction = BuilderUtil.transaction(cardNumber, password, value);
     Optional<CardEntity> optionalCardEntity = BuilderUtil.optionalCardEntity(cardNumber, password, new BigDecimal(500));
     when(transactionService.persistencePort.findByNumber(any())).thenReturn(optionalCardEntity);
-    String retorno = transactionService.executeTransaction(transaction);
 
-    assertEquals(TransactionStatusResponse.OK, retorno);
-    verify(transactionService.persistencePort, times(1)).findByNumber(any());
+    assertThrows(InvalidPasswordException.class, () -> {
+      transactionService.executeTransaction(transaction);
+    });
   }
 
   @Test

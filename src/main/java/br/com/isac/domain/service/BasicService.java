@@ -34,7 +34,7 @@ public abstract class BasicService {
     logger.info("Execute Transaction");
   }
 
-  protected void validatePassword(String numeroCartao, String senhaCartao, String senhaDataBase) throws InvalidPasswordException {
+  protected void validatePassword(String numeroCartao, String senhaCartao) throws InvalidPasswordException {
     persistencePort.findByNumberAndPassword(numeroCartao, senhaCartao)
         .ifPresentOrElse(c -> {
           logger.info("Valid password -> {}", numeroCartao);

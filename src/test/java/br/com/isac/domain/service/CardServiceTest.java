@@ -30,7 +30,7 @@ class CardServiceTest {
     String number = "6548965878541254";
     String paswword = "123456";
     BigDecimal balance = new BigDecimal(500);
-    Card card = BuilderUtil.car(number, paswword, balance);
+    Card card = BuilderUtil.card(number, paswword, balance);
     CardEntity cardEntity = BuilderUtil.cardEntity(number, paswword, balance);
 
     when(cardService.persistencePort.save(any())).thenReturn(cardEntity);

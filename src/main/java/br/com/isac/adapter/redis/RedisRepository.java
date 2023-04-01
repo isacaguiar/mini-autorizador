@@ -12,7 +12,7 @@ public class RedisRepository {
   private static final Logger logger = LogManager.getLogger(RedisRepository.class);
 
   @Autowired
-  private RedisTemplate<String, String> template;
+  RedisTemplate<String, String> template;
 
   public String get(String key) {
     logger.info("Get key Redis for card {}", key);
